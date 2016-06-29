@@ -1,4 +1,4 @@
-# CddeRunner
+# CodeRunner
 Code Runner uses Docker as sandboxing environment
 
 # Prerequisites
