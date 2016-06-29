@@ -2,7 +2,7 @@
 Example os how to use C.Compiler packages 
 '''
 
-from C.Compiler import Compiler 
+from CodeRunner.C.Compiler import Compiler 
 
 c = Compiler()
 
