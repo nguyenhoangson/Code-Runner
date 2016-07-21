@@ -17,7 +17,11 @@ python 2.7.11
 ```
 
 # Set up 
-Guide to set up 
+Guide to set up. 
+
+```console
+Important: Each of following step is compulsory. Don't miss any to make sure package will work properly  
+```
 
 ## docker
 
