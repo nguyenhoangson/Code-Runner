@@ -35,3 +35,8 @@ Important: Each of following step is compulsory. Don't miss any to make sure pac
 ```console
 python setup.py install 
 ```
+
+Test if setup is done by: 
+# User Guide 
+
+
