@@ -4,12 +4,14 @@ import os.path as path
 import hashlib
 from datetime import datetime 
 
-# execute 
+# Execute 
 class Compiler:
 
     ''' 
         Compiler uses Docker as a sandboxing environment to 
-        actually compile and run the code 
+        actually compile and run the code
+        By default, it will execute Docker container in local computer
+        The environment can be set by docker-machine
     '''
     
     def __init__(self):
@@ -18,7 +20,16 @@ class Compiler:
         
         # Create a common persistent volume for all containers (processes)
         subprocess32.call(["docker", "run", "--name", self.root, "-v", "/source_code", "-v", "/executable","gcc:latest"])
-        
+
+
+    '''
+       This function if for testing purpose only due to some limitation of parallel
+       programming in Python using multiprocessing.Pool() method 
+    '''
+    def __call__(self, executable_file_path):
+        return self.run(executable_file_path)
+
+    
     def compile(self, path_to_source_code, executable_file_path):
 
         ''' 
@@ -66,7 +77,7 @@ class Compiler:
             dirname_executable = path.dirname(executable_file_path)
             dirname_in_container_executable = hashlib.sha256(dirname_executable).hexdigest()
 
-            executable_result = subprocess32.Popen(["docker", "run", "--volumes-from", self.root, "gcc:latest", "/executable/" + dirname_in_container_executable + "/" + filename_executable], stdout=subprocess32.PIPE, stderr=subprocess32.PIPE).communicate()[0]
+            executable_result = subprocess32.Popen(["docker", "run", "--volumes-from", self.root, "-m", "5M", "--kernel-memory" , "50M" ,"gcc:latest", "/executable/" + dirname_in_container_executable + "/" + filename_executable], stdout=subprocess32.PIPE, stderr=subprocess32.PIPE).communicate()[0]
 
             return executable_result
 
