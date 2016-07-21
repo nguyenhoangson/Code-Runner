@@ -16,9 +16,17 @@ Docker-machine: 0.7.0
 python 2.7.11
 ```
 
-# Installation 
+# Set up 
+Guide to set up 
 
-At the moment, it has not been uploaded to PyPi yet. You can install locally by 
+## docker
+
+## docker-machine 
+
+## python && pip 
+
+## coderunner
+
 
 ```console
 python setup.py install 
