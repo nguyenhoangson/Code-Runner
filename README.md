@@ -2,6 +2,7 @@
 Code Runner uses Docker as sandboxing environment
 
 # Prerequisites
+To use CodeRunner package, it requires the following dependencies to be installed: 
 
 ```console
 Docker: 1.11.2 
