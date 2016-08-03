@@ -1,0 +1,8 @@
+# Make sure that docker has already been installed
+# and you have root privilege to run this script
+
+sudo sh -c 'curl -L https://github.com/docker/machine/releases/download/v0.7.0/docker-machine-`uname -s`-`uname -m` > /usr/local/bin/docker-machine'
+
+sudo chmod +x /usr/local/bin/docker-machine
+
+docker-machine version
