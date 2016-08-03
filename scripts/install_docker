@@ -32,7 +32,7 @@ sudo apt-get install linux-image-extra-$(uname -r)
 sudo apt-get update
 sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine=1.11.2-0~trusty 
 sudo service docker start
-xsudo docker run hello-world
+sudo docker run hello-world
 
 ### Using docker without sudo
 sudo groupadd docker
