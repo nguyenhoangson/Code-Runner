@@ -37,3 +37,6 @@ sudo docker run hello-world
 ### Using docker without sudo
 sudo groupadd docker
 sudo usermod -aG docker ubuntu 
+
+## Test command
+docker version 
