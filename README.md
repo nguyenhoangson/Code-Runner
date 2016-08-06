@@ -21,19 +21,12 @@ python 2.7.11
 # Set up 
 Guide to set up. 
 
-```console
-Important: Each of following step is compulsory. Don't miss any to make sure package will work properly  
-```
+Download the following [folder](https://github.com/nguyenhoangson/Automation/tree/master/Setup) to your computer:
 
-Download the following 2 [scripts](https://github.com/nguyenhoangson/Automation/tree/master/Setup) to your computer:
-```console
-pre_set_up
-set_up_django_server 
-```
 
-Change mod for these two scripts:
+Change mode for all the files of this folder:
 ```console
-chmod 755 pre_set_up set_up_django_server 
+chmod 755 * 
 ```
 Run them to set up
 ```console
