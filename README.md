@@ -25,20 +25,26 @@ Guide to set up.
 Important: Each of following step is compulsory. Don't miss any to make sure package will work properly  
 ```
 
-## docker
-
-## docker-machine 
-
-## python && pip 
-
-## coderunner
-
-
+Download the following 2 [scripts](https://github.com/nguyenhoangson/Automation/tree/master/Setup) to your computer:
 ```console
-python setup.py install 
+pre_set_up
+set_up_django_server 
 ```
 
-Test if setup is done by: 
+Change mod for these two scripts:
+```console
+chmod 755 pre_set_up set_up_django_server 
+```
+Run them to set up
+```console
+./pre_set_up
+./set_up_django_server
+```
+
+Test if setup is done by running example.py file: 
+```console
+python example.py
+```
 # User Guide 
 
 
