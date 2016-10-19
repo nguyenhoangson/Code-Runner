@@ -21,24 +21,23 @@ python 2.7.11
 # Set up 
 Guide to set up. 
 
+Download the following [folder](https://github.com/nguyenhoangson/Automation/tree/master/Setup) to your computer:
+
+
+Change mode for all the files of this folder:
 ```console
-Important: Each of following step is compulsory. Don't miss any to make sure package will work properly  
+chmod 755 * 
+```
+Run them to set up
+```console
+./pre_set_up
+./set_up_django_server
 ```
 
-## docker
-
-## docker-machine 
-
-## python && pip 
-
-## coderunner
-
-
+Test if setup is done by running example.py file: 
 ```console
-python setup.py install 
+python example.py
 ```
-
-Test if setup is done by: 
 # User Guide 
 
 
