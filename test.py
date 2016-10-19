@@ -1,5 +1,4 @@
 from C.Compiler import Compiler
-import os.path 
 
 c = Compiler()
 

@@ -3,6 +3,7 @@ import subprocess32
 import os.path as path
 import hashlib
 from datetime import datetime 
+from random import randint
 
 # Execute 
 class Compiler:
@@ -14,50 +15,22 @@ class Compiler:
         The environment can be set by docker-machine
     '''
     
-    def __init__(self):
-
-        self.root = hashlib.sha256(str(datetime.now())).hexdigest()
-        
-        # Create a common persistent volume for all containers (processes)
-        subprocess32.call(["docker", "run", "--name", self.root, "-v", "/source_code", "-v", "/executable","gcc:latest"])
-
-
-    '''
-       This function if for testing purpose only due to some limitation of parallel
-       programming in Python using multiprocessing.Pool() method 
-    '''
     def __call__(self, executable_file_path):
         return self.run(executable_file_path)
-
     
     def compile(self, path_to_source_code, executable_file_path):
 
         ''' 
-           Return a dictionary with the following format {'is_successful': Boolean, 'error_message': String or None, 'executable_name': String or None}
+           Return a dictionary with the following format 
+           {'is_successful': Boolean, 'error_message': 
+           String or None, 'executable_name': String or None}
         '''
         try:
             
             compiling_result = dict([("is_successful", True), ("error_message", None), ("executable_file_path", executable_file_path)])
-            dirname_source_code = path.dirname(path_to_source_code) # get directory name from path_to_source_code
-            dirname_executable = path.dirname(executable_file_path)
-            filename_source_code = path.basename(path_to_source_code)
-            filename_executable = path.basename(executable_file_path)
-            dirname_in_container_source_code = hashlib.sha256(dirname_source_code).hexdigest()
-            dirname_in_container_executable = hashlib.sha256(dirname_executable).hexdigest()
             
-            # if directories do not exists inside the container, then create them
-            if(subprocess32.call(["docker", "run", "--volumes-from", self.root, "gcc:latest", "test", "-e", "/source_code/" + dirname_in_container_source_code]) == 1):
-                subprocess32.call(["docker", "run", "--volumes-from", self.root, "gcc:latest", "mkdir", "/source_code/" + dirname_in_container_source_code])
-
-            if(subprocess32.call(["docker", "run", "--volumes-from", self.root, "gcc:latest", "test", "-e", "/executable/" + dirname_in_container_executable]) == 1):
-                subprocess32.call(["docker", "run", "--volumes-from", self.root, "gcc:latest", "mkdir", "/executable/" + dirname_in_container_executable])
-                
-            # copy the file to dirname_in_container_source_code
-            subprocess32.call(["docker", "cp", path_to_source_code, self.root + ":/source_code" + "/" + dirname_in_container_source_code])
-        
-            # Compile the code by running a container 
-            compiling_result["error_message"] = subprocess32.Popen(["docker", "run", "--volumes-from", self.root, "gcc:latest", "gcc", "/source_code/" + dirname_in_container_source_code + "/" + filename_source_code, "-o", "/executable/" + dirname_in_container_executable + "/" + filename_executable], stdout=subprocess32.PIPE, stderr=subprocess32.PIPE).communicate()[1]
-
+            compiling_result["error_message"] = subprocess32.Popen(["gcc", "-g", "-Wall", path_to_source_code, "-o", executable_file_path], stdout=subprocess32.PIPE, stderr=subprocess32.PIPE).communicate()[1]
+                        
             # TODO: this code is likely to produce errors. Need to test here carefully
             if(compiling_result["error_message"] != ''):
                 compiling_result["is_successful"] = False
@@ -70,15 +43,24 @@ class Compiler:
 
     # Run the executable file after being compiled
     def run(self, executable_file_path):
-
+        
         try:
-            
             filename_executable = path.basename(executable_file_path)
-            dirname_executable = path.dirname(executable_file_path)
-            dirname_in_container_executable = hashlib.sha256(dirname_executable).hexdigest()
+            random_string = hashlib.sha256(str(randint(0, 1000))).hexdigest()
+            docker_unique = hashlib.sha256(str(datetime.now())).hexdigest() + random_string 
 
-            executable_result = subprocess32.Popen(["docker", "run", "--volumes-from", self.root, "-m", "5M", "--kernel-memory" , "50M" ,"gcc:latest", "/executable/" + dirname_in_container_executable + "/" + filename_executable], stdout=subprocess32.PIPE, stderr=subprocess32.PIPE).communicate()[0]
+            # Create a docker volume
+            subprocess32.call(["docker", "run", "--name", docker_unique, "-v", "/executable", "gcc:latest"])
+            
+            # Copy executable file from host to docker volume 
+            subprocess32.call(["docker", "cp", executable_file_path, docker_unique + ":executable"])
 
+            # Run executable file inside Docker container
+            executable_result = subprocess32.Popen(["docker", "run", "--volumes-from", docker_unique, "-m", "5M", "--kernel-memory" , "50M" ,"gcc:latest", "/executable/" + filename_executable], stdout=subprocess32.PIPE, stderr=subprocess32.PIPE).communicate()[0]
+
+            # Remove executable file from volume of docker 
+            subprocess32.call(["docker", "rm", "--volumes=true", docker_unique])
+            
             return executable_result
 
         except Exception as e:
