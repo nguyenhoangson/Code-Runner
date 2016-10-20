@@ -10,7 +10,7 @@ class Compiler:
 
     ''' 
         Compiler uses Docker as a sandboxing environment to 
-        actually compile and run the code
+        actually run the code
         By default, it will execute Docker container in local computer
         The environment can be set by docker-machine
     '''
