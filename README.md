@@ -21,6 +21,7 @@ python 2.7.11
 # Step by Step setup guide   
 Guide to set up for Ubuntu 14.04.4 LTS, but for other Ubuntu version, it should also work properly
 
+
 Install python 2.7.11
 
 ```console
@@ -49,5 +50,34 @@ python example.py
 ```
 
 # User Guide 
+
+After completing setup above, Code-Runner can be used as a normal Python package
+
+
+Import C Compiler
+
+```console
+from CodeRunner.C.Compiler import Compiler 
+```
+
+Invoke class Compiler
+
+```console
+c = Compiler()
+```
+
+Compile .c file by specifying its path and desired folder for executable file. Note that executable file will be stored in local computer
+
+```console
+c.compile("./test.c", "./test")
+```
+
+Run executable file in sandboxing (probably remote) Docker environment
+
+```console
+c.run("./test")
+```
+
+
 
 
