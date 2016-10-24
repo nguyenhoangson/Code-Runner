@@ -49,6 +49,8 @@ Finally run example.py file to see if everything is set up properly
 python example.py
 ```
 
+Click [here](https://travis-ci.org/nguyenhoangson/Code-Runner) to see how the steps above are actually run in Ubuntu 14.04.4 LTS environment
+
 # User Guide 
 
 After completing setup above, Code-Runner can be used as a normal Python package
