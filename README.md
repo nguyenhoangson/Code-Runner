@@ -19,24 +19,14 @@ python 2.7.11
 ```
 
 # Set up 
-Guide to set up. 
+Guide to set up for Ubuntu 14.04.4 LTS, but for other Ubuntu version, it should also work properly
 
-Download the following [folder](https://github.com/nguyenhoangson/Automation/tree/master/Setup) to your computer:
+Install python 2.7.11
 
+Clone master branch of this repository for the latest version of Code-Runner
 
-Change mode for all the files of this folder:
 ```console
-chmod 755 * 
-```
-Run them to set up
-```console
-./pre_set_up
-./set_up_django_server
-```
-
-Test if setup is done by running example.py file: 
-```console
-python example.py
+git clone --depth=50 --branch=master https://github.com/nguyenhoangson/Code-Runner.git 
 ```
 # User Guide 
 
